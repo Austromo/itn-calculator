@@ -371,12 +371,14 @@ class _ITNCalculatorPageState extends State<ITNCalculatorPage> {
         ),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)')),
+          FilteringTextInputFormatter.allow(RegExp(r'(^\d*[\.,]?\d*)')),
           LengthLimitingTextInputFormatter(6),
           NumericalRangeFormatter(min: minItn, max: maxItn)
         ],
         onChanged: (value) {
           setState(() {
+            // Replace the german , with the english . so that the calculations are correct
+            value = value.replaceAll(',', '.');
             onChangedCallback(double.tryParse(value) ?? 0.0);
             appState.calculateItnChange(appState.selectedSuccess[0]);
           });
@@ -395,15 +397,18 @@ class NumericalRangeFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    if (RegExp(r'^\d\.\d\d\d\d$').hasMatch(newValue.text) ||
-        RegExp(r'^\.').hasMatch(newValue.text)) {
+    // Replace the german , with the english . so that , signals also a valid decimal number
+    String newText = newValue.text.replaceAll(',', '.');
+
+    if (RegExp(r'^\d\.\d\d\d\d$').hasMatch(newText) ||
+        RegExp(r'^\.').hasMatch(newText)) {
       return oldValue;
-    } else if (newValue.text == '') {
+    } else if (newText == '') {
       return newValue;
-    } else if (double.parse(newValue.text) < min) {
+    } else if (double.parse(newText) < min) {
       return TextEditingValue().copyWith(text: min.toStringAsFixed(2));
     } else {
-      return double.parse(newValue.text) > max ? oldValue : newValue;
+      return double.parse(newText) > max ? oldValue : newValue;
     }
   }
 }
