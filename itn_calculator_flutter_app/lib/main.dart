@@ -369,7 +369,7 @@ class _ITNCalculatorPageState extends State<ITNCalculatorPage> {
           border: const UnderlineInputBorder(),
           labelText: label,
         ),
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d*)')),
           LengthLimitingTextInputFormatter(6),
