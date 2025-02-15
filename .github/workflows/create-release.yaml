@@ -1,0 +1,35 @@
+name: create release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'itn_calculator_flutter_app/android/**'
+      - '.github/workflows/**.yaml'
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: set up flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: 'itn_calculator_flutter_app/pubspec.yaml'
+          cache: true
+      - name: install flutter dependencies
+        working-directory: itn_calculator_flutter_app
+        run: flutter pub get
+      - name: build flutter android app
+        working-directory: itn_calculator_flutter_app
+        run: flutter build apk --release
+      - name: create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: itn_calculator_flutter_app/build/app/outputs/flutter-apk/app-release.apk
+          name: ${{ env.REL_NAME }}
+          tag_name: ${{ env.REL_NAME }}
+          make_latest: true
