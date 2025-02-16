@@ -50,6 +50,14 @@ class MyAppState extends ChangeNotifier {
   var itnOpponent2 = 0.0;
   var itnChangeOfUser = double.nan;
 
+  void clearAllItns() {
+    itnUser = 0.0;
+    itnPartner = 0.0;
+    itnOpponent1 = 0.0;
+    itnOpponent2 = 0.0;
+    itnChangeOfUser = double.nan;
+  }
+
   bool calculateItnChange(bool userWon) {
     if (itnUser < minItn ||
         itnUser > maxItn ||
@@ -137,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onDestinationSelected: (int index) {
               setState(() {
                 selectedIndex = index;
-                appState.calculateItnChange(appState.selectedSuccess[0]);
+                appState.clearAllItns();
               });
             },
             indicatorColor: Theme.of(context).colorScheme.inversePrimary,
@@ -185,7 +193,7 @@ class WelcomeHomePage extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: ColoredBox(
-                  color: Theme.of(context).cardColor.withOpacity(0.5),
+                  color: Theme.of(context).cardColor.withValues(alpha: 0.5),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(
@@ -231,7 +239,7 @@ class _ITNCalculatorPageState extends State<ITNCalculatorPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(50, 20, 50, 20),
       child: ColoredBox(
-          color: Theme.of(context).cardColor.withOpacity(0.5),
+          color: Theme.of(context).cardColor.withValues(alpha: 0.5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
