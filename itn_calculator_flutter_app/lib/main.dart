@@ -50,12 +50,13 @@ class MyAppState extends ChangeNotifier {
   var itnOpponent2 = 0.0;
   var itnChangeOfUser = double.nan;
 
-  void clearAllItns() {
+  void clearAllItnValues() {
     itnUser = 0.0;
     itnPartner = 0.0;
     itnOpponent1 = 0.0;
     itnOpponent2 = 0.0;
     itnChangeOfUser = double.nan;
+    notifyListeners();
   }
 
   bool calculateItnChange(bool userWon) {
@@ -145,7 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
             onDestinationSelected: (int index) {
               setState(() {
                 selectedIndex = index;
-                appState.clearAllItns();
+                if (index == 0) {
+                  appState.clearAllItnValues();
+                }
               });
             },
             indicatorColor: Theme.of(context).colorScheme.inversePrimary,
