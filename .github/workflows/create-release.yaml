@@ -29,11 +29,11 @@ jobs:
       - name: prepare release
         run: |
           echo "REL_NAME=$(date +%Y-%m-%d-)$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          mv itn_calculator_flutter_app/build/app/outputs/flutter-apk/app-release.apk itn-calculator.apk
+          mv itn_calculator_flutter_app/build/app/outputs/flutter-apk/app-release.apk ${{ env.REL_NAME }}-itn-calculator-for-android.apk
       - name: create release
         uses: softprops/action-gh-release@v2
         with:
-          files: itn-calculator.apk
+          files: ${{ env.REL_NAME }}-itn-calculator-for-android.apk
           name: ${{ env.REL_NAME }}
           tag_name: ${{ env.REL_NAME }}
           make_latest: true
