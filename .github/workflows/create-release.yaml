@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'itn_calculator_flutter_app/android/**'
+      - 'itn_calculator_flutter_app/lib/**.dart'
       - '.github/workflows/**.yaml'
 permissions:
   contents: write
