@@ -4,8 +4,7 @@ on:
     branches:
       - main
     paths:
-      - 'itn_calculator_flutter_app/android/**'
-      - 'itn_calculator_flutter_app/lib/**.dart'
+      - 'itn_calculator_flutter_app/**'
       - '.github/workflows/**.yaml'
 permissions:
   contents: write
@@ -29,12 +28,15 @@ jobs:
         run: flutter build apk --release
       - name: prepare release
         run: |
-          echo "REL_NAME=$(date +%Y-%m-%d-)$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          mv itn_calculator_flutter_app/build/app/outputs/flutter-apk/app-release.apk ${{ env.REL_NAME }}-itn-calculator-for-android.apk
+          REL_NAME=$(date +%Y-%m-%d-$(git rev-parse --short HEAD))
+          FILE_NAME="$REL_NAME-itn-calculator-for-android.apk"
+          echo "REL_NAME=$REL_NAME" >> $GITHUB_ENV
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+          mv itn_calculator_flutter_app/build/app/outputs/flutter-apk/app-release.apk "$FILE_NAME"
       - name: create release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.REL_NAME }}-itn-calculator-for-android.apk
+          files: ${{ env.FILE_NAME }}
           name: ${{ env.REL_NAME }}
           tag_name: ${{ env.REL_NAME }}
           make_latest: true
