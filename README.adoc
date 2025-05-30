@@ -19,10 +19,10 @@ This app is a small I~nternational~T~ennis~N~umber~ calculator for tennis player
 == Calculations
 Source: https://www.oetv.at/breitensport/berechnung as of **2024/11/29**
 
+Singles:
+
 s … ÖTV ITN AUSTRIA of the winner before the game +
 v … ÖTV ITN AUSTRIA of the loser before the game
-
-Singles:
 
 ifdef::env-github[]
 image::img/itn-players-diff-formula.svg[]
